@@ -45,10 +45,6 @@ Vagrant.configure('2') do |config|
             IP += 1
             master.vm.box = OS
             master.vm.hostname = "master#{n}"
-            master.vm.network "forwarded_port",
-            guest: MASTER_PORT + n, host: MASTER_PORT + n
-            master.vm.network 'private_network', 
-            ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
             debian.vm.network "forwarded_port",
             guest: OPEN_PORT1, host: OPEN_PORT1
             debian.vm.network "forwarded_port",
@@ -59,6 +55,8 @@ Vagrant.configure('2') do |config|
             guest: OPEN_PORT4, host: OPEN_PORT4
             debian.vm.network "forwarded_port",
             guest: OPEN_PORT5, host: OPEN_PORT5
+            master.vm.network 'private_network', 
+            ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
             master.vm.provision "copy ssh public key", type: "shell",
             inline: "echo \"#{key}\" >> /home/vagrant/.ssh/authorized_keys"
             master.vm.provision "shell",
@@ -85,10 +83,6 @@ Vagrant.configure('2') do |config|
             IP += 1
             worker.vm.box = OS
             worker.vm.hostname = "worker#{n}"
-            worker.vm.network "forwarded_port",
-            guest: WORKER_PORT + n, host: WORKER_PORT + n
-            worker.vm.network 'private_network', 
-            ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
             debian.vm.network "forwarded_port",
             guest: OPEN_PORT1, host: OPEN_PORT1
             debian.vm.network "forwarded_port",
@@ -99,6 +93,8 @@ Vagrant.configure('2') do |config|
             guest: OPEN_PORT4, host: OPEN_PORT4
             debian.vm.network "forwarded_port",
             guest: OPEN_PORT5, host: OPEN_PORT5
+            worker.vm.network 'private_network', 
+            ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
             worker.vm.provision "copy ssh public key", type: "shell",
             inline: "echo \"#{key}\" >> /home/vagrant/.ssh/authorized_keys"
             worker.vm.provision "shell", 
