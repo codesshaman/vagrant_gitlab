@@ -45,15 +45,15 @@ Vagrant.configure('2') do |config|
             IP += 1
             master.vm.box = OS
             master.vm.hostname = "master#{n}"
-            debian.vm.network "forwarded_port",
+            master.vm.network "forwarded_port",
             guest: OPEN_PORT1, host: OPEN_PORT1
-            debian.vm.network "forwarded_port",
+            master.vm.network "forwarded_port",
             guest: OPEN_PORT2, host: OPEN_PORT2
-            debian.vm.network "forwarded_port",
+            master.vm.network "forwarded_port",
             guest: OPEN_PORT3, host: OPEN_PORT3
-            debian.vm.network "forwarded_port",
+            master.vm.network "forwarded_port",
             guest: OPEN_PORT4, host: OPEN_PORT4
-            debian.vm.network "forwarded_port",
+            master.vm.network "forwarded_port",
             guest: OPEN_PORT5, host: OPEN_PORT5
             master.vm.network 'private_network', 
             ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
@@ -83,15 +83,15 @@ Vagrant.configure('2') do |config|
             IP += 1
             worker.vm.box = OS
             worker.vm.hostname = "worker#{n}"
-            debian.vm.network "forwarded_port",
+            worker.vm.network "forwarded_port",
             guest: OPEN_PORT1, host: OPEN_PORT1
-            debian.vm.network "forwarded_port",
+            worker.vm.network "forwarded_port",
             guest: OPEN_PORT2, host: OPEN_PORT2
-            debian.vm.network "forwarded_port",
+            worker.vm.network "forwarded_port",
             guest: OPEN_PORT3, host: OPEN_PORT3
-            debian.vm.network "forwarded_port",
+            worker.vm.network "forwarded_port",
             guest: OPEN_PORT4, host: OPEN_PORT4
-            debian.vm.network "forwarded_port",
+            worker.vm.network "forwarded_port",
             guest: OPEN_PORT5, host: OPEN_PORT5
             worker.vm.network 'private_network', 
             ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
