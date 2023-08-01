@@ -83,6 +83,8 @@ snap:
 clean: down
 	@printf "$(ERROR_COLOR)==== Destroy configuration ${name}... ====$(NO_COLOR)\n"
 	@vagrant destroy
+	@rm -rf .vagrantboxes
+	@rm -rf .vagrant
 
 fclean:
 	@printf "$(ERROR_COLOR)==== Force destroy configurations ====$(NO_COLOR)\n"

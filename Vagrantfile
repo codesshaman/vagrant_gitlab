@@ -30,11 +30,12 @@ OPEN_PORT5 = "9100"
 
 # CPU and memory
 MASTER_CPU = "3"
-MASTER_MEMORY = "4096"
+MASTER_MEMORY = "8192"
 
 SLAVE_CPU = "2"
 SLAVE_MEMORY = "1024"
 
+key = File.read("#{Dir.home}/.ssh/id_rsa.pub")
 # Masters and workers cycles
 Vagrant.configure('2') do |config|
     # ######################### #
@@ -60,15 +61,11 @@ Vagrant.configure('2') do |config|
             master.vm.provision "copy ssh public key", type: "shell",
             inline: "echo \"#{key}\" >> /home/vagrant/.ssh/authorized_keys"
             master.vm.provision "shell",
-            privileged: true, path: "gitlab_setup.sh",
-            args: [MASTERS_LIST, MASTERS_IP, WORKERS_LIST,WORKERS_IP,
-            INGRESS_NAME, INGRESS_IP]
+            privileged: true, path: "gitlab_setup.sh"
             master.vm.provision "shell", inline: "sudo swapoff -a"
             master.vm.provision "shell",
             inline: "sed -i 's!/dev/mapper/debian--11--vg-swap!#/dev/mapper/debian--11--vg-swap!1' /etc/fstab"
             master.vm.provider 'virtualbox' do |v|
-                v.customize ["modifyvm", :id,
-                "--macaddress1", "#{MAC_LIST_M[n]}"]
                 v.name = "#{MASTER_NAME}#{n}"
                 v.memory = MASTER_MEMORY
                 v.cpus = MASTER_CPU
@@ -98,15 +95,11 @@ Vagrant.configure('2') do |config|
             worker.vm.provision "copy ssh public key", type: "shell",
             inline: "echo \"#{key}\" >> /home/vagrant/.ssh/authorized_keys"
             worker.vm.provision "shell", 
-            privileged: true, path: "docker_setup.sh",
-            args: [MASTERS_LIST, MASTERS_IP,WORKERS_LIST, WORKERS_IP,
-            INGRESS_NAME, INGRESS_IP]
+            privileged: true, path: "docker_setup.sh"
             worker.vm.provision "shell", inline: "sudo swapoff -a"
             worker.vm.provision "shell",
             inline: "sed -i 's!/dev/mapper/debian--11--vg-swap!#/dev/mapper/debian--11--vg-swap!1' /etc/fstab"
             worker.vm.provider 'virtualbox' do |v|
-                v.customize ["modifyvm", :id,
-                "--macaddress1", "#{MAC_LIST_W[n]}"]
                 v.name = "#{WORKER_NAME}#{n}"
                 v.memory = SLAVE_MEMORY
                 v.cpus = SLAVE_CPU
