@@ -22,6 +22,12 @@ MASTER_ALIAS = "master"
 # Alias for the worker nodes
 WORKER_ALIAS = "worker"
 
+OPEN_PORT1 = "80"
+OPEN_PORT2 = "81"
+OPEN_PORT3 = "82"
+OPEN_PORT4 = "83"
+OPEN_PORT5 = "9100"
+
 # CPU and memory
 MASTER_CPU = "3"
 MASTER_MEMORY = "4096"
@@ -43,10 +49,20 @@ Vagrant.configure('2') do |config|
             guest: MASTER_PORT + n, host: MASTER_PORT + n
             master.vm.network 'private_network', 
             ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT1, host: OPEN_PORT1
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT2, host: OPEN_PORT2
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT3, host: OPEN_PORT3
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT4, host: OPEN_PORT4
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT5, host: OPEN_PORT5
             master.vm.provision "copy ssh public key", type: "shell",
             inline: "echo \"#{key}\" >> /home/vagrant/.ssh/authorized_keys"
             master.vm.provision "shell",
-            privileged: true, path: "master_node_setup.sh",
+            privileged: true, path: "gitlab_setup.sh",
             args: [MASTERS_LIST, MASTERS_IP, WORKERS_LIST,WORKERS_IP,
             INGRESS_NAME, INGRESS_IP]
             master.vm.provision "shell", inline: "sudo swapoff -a"
@@ -73,10 +89,20 @@ Vagrant.configure('2') do |config|
             guest: WORKER_PORT + n, host: WORKER_PORT + n
             worker.vm.network 'private_network', 
             ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT1, host: OPEN_PORT1
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT2, host: OPEN_PORT2
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT3, host: OPEN_PORT3
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT4, host: OPEN_PORT4
+            debian.vm.network "forwarded_port",
+            guest: OPEN_PORT5, host: OPEN_PORT5
             worker.vm.provision "copy ssh public key", type: "shell",
             inline: "echo \"#{key}\" >> /home/vagrant/.ssh/authorized_keys"
             worker.vm.provision "shell", 
-            privileged: true, path: "worker_node_setup.sh",
+            privileged: true, path: "docker_setup.sh",
             args: [MASTERS_LIST, MASTERS_IP,WORKERS_LIST, WORKERS_IP,
             INGRESS_NAME, INGRESS_IP]
             worker.vm.provision "shell", inline: "sudo swapoff -a"
