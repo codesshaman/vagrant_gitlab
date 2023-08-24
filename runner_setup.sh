@@ -40,6 +40,7 @@ curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/s
 apt update && apt install -y \
     make \
     curl \
+    htop \
     docker \
     gitlab-runner \
     docker-compose
