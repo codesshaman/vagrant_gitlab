@@ -58,7 +58,7 @@ ps:
 
 path:
 	@printf "$(YELLOW)==== Change path for ${name}... ====$(NO_COLOR)\n"
-	@export VAGRANT_HOME=".vagrantboxes"
+	@bash export.sh
 	@mkdir .vagrantboxes
 	@printf "$(OK_COLOR)==== Pas has been changing ====$(NO_COLOR)\n"
 

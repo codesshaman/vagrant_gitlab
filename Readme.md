@@ -24,7 +24,7 @@ Copy box and go inside the repository folder:
 
 Inicialize configuration:
 
-``vagrant box add bento/debian-11 debian``
+``vagrant box add bento/debian-11.5 debian``
 
 or with make:
 
