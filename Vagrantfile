@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 OS = 'bento/debian-11.5'
-IP_ADDRESS = "10.10.10"
+IP_ADDRESS = "192.168.56"
 
 # First subnet ip number for range
 IP = 9
@@ -22,12 +22,6 @@ MASTER_ALIAS = "master"
 # Alias for the worker nodes
 WORKER_ALIAS = "worker"
 
-OPEN_PORT1 = "80"
-OPEN_PORT2 = "22"
-OPEN_PORT3 = "443"
-OPEN_PORT4 = "9418"
-OPEN_PORT5 = "9100"
-
 # CPU and memory
 MASTER_CPU = "3"
 MASTER_MEMORY = "8192"
@@ -45,17 +39,9 @@ Vagrant.configure('2') do |config|
         config.vm.define "master#{n}" do |master|
             IP += 1
             master.vm.box = OS
+            ubuntu.vm.synced_folder "master",
+            "/home/vagrant/shared_folder"
             master.vm.hostname = "master#{n}"
-            master.vm.network "forwarded_port",
-            guest: OPEN_PORT1, host: OPEN_PORT1
-            master.vm.network "forwarded_port",
-            guest: OPEN_PORT2, host: OPEN_PORT2
-            master.vm.network "forwarded_port",
-            guest: OPEN_PORT3, host: OPEN_PORT3
-            master.vm.network "forwarded_port",
-            guest: OPEN_PORT4, host: OPEN_PORT4
-            master.vm.network "forwarded_port",
-            guest: OPEN_PORT5, host: OPEN_PORT5
             master.vm.network 'private_network', 
             ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
             master.vm.provision "copy ssh public key", type: "shell",
@@ -72,6 +58,8 @@ Vagrant.configure('2') do |config|
             end
         end
     end
+end
+Vagrant.configure('2') do |config|
     # ######################### #
     # Worker nodes create cycle #
     # ######################### #
@@ -79,17 +67,9 @@ Vagrant.configure('2') do |config|
         config.vm.define "worker#{n}" do |worker|
             IP += 1
             worker.vm.box = OS
+            ubuntu.vm.synced_folder "worker",
+            "/home/vagrant/shared_folder"
             worker.vm.hostname = "worker#{n}"
-            worker.vm.network "forwarded_port",
-            guest: OPEN_PORT1, host: OPEN_PORT1
-            worker.vm.network "forwarded_port",
-            guest: OPEN_PORT2, host: OPEN_PORT2
-            worker.vm.network "forwarded_port",
-            guest: OPEN_PORT3, host: OPEN_PORT3
-            worker.vm.network "forwarded_port",
-            guest: OPEN_PORT4, host: OPEN_PORT4
-            worker.vm.network "forwarded_port",
-            guest: OPEN_PORT5, host: OPEN_PORT5
             worker.vm.network 'private_network', 
             ip: "#{IP_ADDRESS}.#{IP}", subnet: "255.255.255.0"
             worker.vm.provision "copy ssh public key", type: "shell",
