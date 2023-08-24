@@ -49,3 +49,38 @@ Connect:
 or with make:
 
 ``com10``
+
+
+### How to use gitlab runners
+
+#### Step 1: configure master
+
+In the main machine with gitlab execute next actions:
+
+``sudo nano /etc/gitlab/gitlab.rb``
+
+Change here ``external_url`` to your server IP, for example:
+
+``external_url 'http://192.168.56.10/'``
+
+Reconfigure gitlab:
+
+``sudo gitlab-ctl reconfigure``
+
+Restart gitlab:
+
+``sudo gitlab-ctl restart``
+
+Go to he page ``http://192.168.56.10/admin/runners`` (your IP here) and create new runner.
+
+Choose your operation system and write discription
+
+#### Step 2: configure workers
+
+Copy gitlab runner launch command. This command be look like that:
+
+``gitlab-runner register  --url http://192.168.56.10  --token glrt-qPLD2MgYD-_HQuG9Y6HW``
+
+But token will be uniquwe from your gitlab
+
+Paste and execute this command, choose name and executor for your runner
