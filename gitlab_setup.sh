@@ -50,6 +50,14 @@ EXTERNAL_URL="https://gitlab.example.com"
 
 apt install gitlab-ce
 
+echo -e "${warn}[k8s installer]${no} ${cyan}Установка mkcert для самоподписных сертификатов${no}"
+curl -s https://api.github.com/repos/FiloSottile/mkcert/releases/latest| grep browser_download_url  | grep linux-amd64 | cut -d '"' -f 4 | wget -qi -
+mv mkcert-v*-linux-amd64 mkcert
+chmod a+x mkcert
+mv mkcert /usr/local/bin/
+
 gitlab-ctl reconfigure
+
+gitlab-ctl restart
 
 su - vagrant -c "sudo cat /etc/gitlab/initial_root_password | grep Password: | sed -r 's/.{,10}//' > ~/gitlab.passwd"
