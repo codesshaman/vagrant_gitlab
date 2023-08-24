@@ -24,7 +24,7 @@ WORKER_ALIAS = "worker"
 
 # CPU and memory
 MASTER_CPU = "3"
-MASTER_MEMORY = "8192"
+MASTER_MEMORY = "6144"
 
 SLAVE_CPU = "2"
 SLAVE_MEMORY = "1024"
@@ -39,7 +39,7 @@ Vagrant.configure('2') do |config|
         config.vm.define "master#{n}" do |master|
             IP += 1
             master.vm.box = OS
-            ubuntu.vm.synced_folder "master",
+            master.vm.synced_folder "master",
             "/home/vagrant/shared_folder"
             master.vm.hostname = "master#{n}"
             master.vm.network 'private_network', 
@@ -67,7 +67,7 @@ Vagrant.configure('2') do |config|
         config.vm.define "worker#{n}" do |worker|
             IP += 1
             worker.vm.box = OS
-            ubuntu.vm.synced_folder "worker",
+            worker.vm.synced_folder "worker",
             "/home/vagrant/shared_folder"
             worker.vm.hostname = "worker#{n}"
             worker.vm.network 'private_network', 
