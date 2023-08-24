@@ -22,7 +22,10 @@ help:
 	@echo -e "$(OK_COLOR)==== All commands of ${name} configuration ====$(NO_COLOR)"
 	@echo -e "$(WARN_COLOR)- make				: Launch configuration"
 	@echo -e "$(WARN_COLOR)- make build			: Building configuration"
-	@echo -e "$(WARN_COLOR)- make connect			: Connect to VM with ssh"
+	@echo -e "$(WARN_COLOR)- make connect			: Connect to gitlab VM with ssh"
+	@echo -e "$(WARN_COLOR)- make con10			: Connect to gitlab VM with ssh"
+	@echo -e "$(WARN_COLOR)- make con11			: Connect to test VM with ssh"
+	@echo -e "$(WARN_COLOR)- make con12			: Connect to prod VM with ssh"
 	@echo -e "$(WARN_COLOR)- make down			: Stopping configuration"
 	@echo -e "$(WARN_COLOR)- make ps			: View configuration"
 	@echo -e "$(WARN_COLOR)- make path			: Change path to vagrantboxes"
@@ -36,17 +39,21 @@ build:
 	@printf "$(OK_COLOR)==== Building configuration ${name}... ====$(NO_COLOR)\n"
 	@vagrant box add bento/debian-11.5 debian
 
+connect:
+	@printf "$(OK_COLOR)==== Connecting to virtual machine ${name}... ====$(NO_COLOR)\n"
+	@ssh vagrant@192.168.56.10
+
 con10:
 	@printf "$(OK_COLOR)==== Connecting to virtual machine ${name}... ====$(NO_COLOR)\n"
-	@ssh vagrant@10.10.10.10
+	@ssh vagrant@192.168.56.10
 
 con11:
 	@printf "$(OK_COLOR)==== Connecting to virtual machine ${name}... ====$(NO_COLOR)\n"
-	@ssh vagrant@10.10.10.11
+	@ssh vagrant@192.168.56.11
 
 con12:
 	@printf "$(OK_COLOR)==== Connecting to virtual machine ${name}... ====$(NO_COLOR)\n"
-	@ssh vagrant@10.10.10.12
+	@ssh vagrant@192.168.56.12
 
 down:
 	@printf "$(ERROR_COLOR)==== Stopping configuration ${name}... ====$(NO_COLOR)\n"
@@ -83,11 +90,11 @@ snap:
 clean: down
 	@printf "$(ERROR_COLOR)==== Destroy configuration ${name}... ====$(NO_COLOR)\n"
 	@vagrant destroy
-	@rm -rf .vagrantboxes
-	@rm -rf .vagrant
 
 fclean:
 	@printf "$(ERROR_COLOR)==== Force destroy configurations ====$(NO_COLOR)\n"
 	@vagrant destroy --force
+	@rm -rf .vagrantboxes
+	@rm -rf .vagrant
 
 .PHONY	: all help build down re ps clean fclean
