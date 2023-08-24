@@ -39,16 +39,17 @@ apt update && apt install -y \
     curl \
     make \
     perl \
+    htop \
+    # postfix \
     openssh-server \
     ca-certificates
 
-apt install -y postfix
-
-curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash
-
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | bash
 
 EXTERNAL_URL="https://gitlab.example.com"
 
-apt install gitlab-ee
+apt install gitlab-ce
 
-echo /etc/gitlab/initial_root_password
+gitlab-ctl reconfigure
+
+sudo /etc/gitlab/initial_root_password
