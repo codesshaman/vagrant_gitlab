@@ -15,12 +15,12 @@ NUM_WORKERS = 2
 # Name for the master nodes
 MASTER_NAME = "gitlab-master"
 # Name for the worker nodes
-WORKER_NAME = "gitlab-worker"
+WORKER_NAME = "gitlab-runner"
 
 # Alias for the master nodes
 MASTER_ALIAS = "master"
 # Alias for the worker nodes
-WORKER_ALIAS = "worker"
+WORKER_ALIAS = "runner"
 
 # CPU and memory
 MASTER_CPU = "3"
@@ -75,7 +75,7 @@ Vagrant.configure('2') do |config|
             worker.vm.provision "copy ssh public key", type: "shell",
             inline: "echo \"#{key}\" >> /home/vagrant/.ssh/authorized_keys"
             worker.vm.provision "shell", 
-            privileged: true, path: "docker_setup.sh"
+            privileged: true, path: "runner_setup.sh"
             worker.vm.provision "shell", inline: "sudo swapoff -a"
             worker.vm.provision "shell",
             inline: "sed -i 's!/dev/mapper/debian--11--vg-swap!#/dev/mapper/debian--11--vg-swap!1' /etc/fstab"

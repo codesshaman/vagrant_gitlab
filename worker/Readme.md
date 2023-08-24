@@ -1,3 +1,3 @@
-### It is shared folder for cicd VM
+### It is shared folder for cicd runner VM
 
-Put here code for workers vm and this code will be avalible into "/home/vagrant/shared_folder" inside workers vm
+Put here code for runners vm and this code will be avalible into "/home/vagrant/shared_folder" inside runner vm

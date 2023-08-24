@@ -35,6 +35,8 @@ echo -e "${warn}[Node Exporter]${no} : ${cyan}Создание системно�
 
 echo -e "${warn}[Gitlab]${no} : ${cyan}Установка...${no}"
 
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | bash
+
 apt update && apt install -y \
     curl \
     make \
@@ -44,12 +46,10 @@ apt update && apt install -y \
     openssh-server \
     ca-certificates
 
-curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | bash
-
 EXTERNAL_URL="https://gitlab.example.com"
 
 apt install gitlab-ce
 
 gitlab-ctl reconfigure
 
-sudo /etc/gitlab/initial_root_password
+su - vagrant -c "sudo cat /etc/gitlab/initial_root_password | grep Password: | sed -r 's/.{,10}//' > ~/gitlab.passwd"

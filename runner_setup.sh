@@ -33,15 +33,19 @@ echo -e "${warn}[Node Exporter]${no} : ${cyan}Создание системно�
     echo 'WantedBy=multi-user.target'; \
 } | tee /etc/systemd/system/node_exporter.service;
 
-echo -e "${warn}[Docker]${no} : ${cyan}Установка...${no}"
+echo -e "${warn}[Runner]${no} : ${cyan}Установка...${no}"
+
+curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
 
 apt update && apt install -y \
     make \
     curl \
     docker \
+    gitlab-runner \
     docker-compose
 
-chmod 666 /var/run/docker.sock
+echo -e "${warn}[Docker]${no} : ${cyan}Добавление пользователя в группу Docker...${no}"
 
-echo -e "${warn}[Docker]${no} : ${cyan}Добавление пользователя в группу docker...${no}"
-sudo usermod -aG docker vagrant
+usermod -aG docker vagrant
+
+groups vagrant
