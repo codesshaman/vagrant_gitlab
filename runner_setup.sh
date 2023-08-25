@@ -7,6 +7,7 @@ blue='\033[1;34m'   # Blue
 purp='\033[1;35m'   # Purple
 cyan='\033[1;36m'   # Cyan
 white='\033[1;37m'  # White
+arch = 'amd64'
 
 echo -e "${warn}[Node Exporter]${no} : ${cyan}Загрузка...${no}"
 wget https://github.com/prometheus/node_exporter/releases/download/v1.5.0/node_exporter-1.5.0.linux-amd64.tar.gz
@@ -35,14 +36,32 @@ echo -e "${warn}[Node Exporter]${no} : ${cyan}Создание системно�
 
 echo -e "${warn}[Runner]${no} : ${cyan}Установка...${no}"
 
-curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+#curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+
+Download the binary for your system
+sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+
+# Give it permission to execute
+sudo chmod +x /usr/local/bin/gitlab-runner
+
+# Create a GitLab Runner user
+sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+
+# Install and run as a service
+sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+sudo gitlab-runner start
+
+# curl -L https://packages.gitlab.com/gpg.key | sudo apt-key add -
+
+# curl -o /etc/apt/sources.list.d/gitlab-runner.list \
+#   https://packages.gitlab.com/runner/gitlab-runner/script.deb.sh
 
 apt update && apt install -y \
     make \
     curl \
     htop \
     docker \
-    gitlab-runner \
+#    gitlab-runner \
     docker-compose
 
 echo -e "${warn}[k8s installer]${no} ${cyan}Установка mkcert для самоподписных сертификатов${no}"

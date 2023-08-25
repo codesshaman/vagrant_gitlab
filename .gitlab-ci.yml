@@ -1,0 +1,7 @@
+stages:
+  - print
+
+print_message:
+  stage: print
+  script:
+    - echo "Hellow from CI/CD!"
