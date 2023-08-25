@@ -84,3 +84,7 @@ Copy gitlab runner launch command. This command be look like that:
 But token will be uniquwe from your gitlab
 
 Paste and execute this command, choose name and executor for your runner
+
+For debug use:
+
+``sudo gitlab-runner --debug run``
