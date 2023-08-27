@@ -7,6 +7,12 @@ IP_ADDRESS = "192.168.56"
 # First subnet ip number for range
 IP = 9
 
+# Create ip address for gitlab:
+
+RANGE = IP += 1
+PROT = 'http://'
+FULL_ADDR = PROT + IP_ADDRESS + RANGE
+
 # Number of master nodes (1,3,5,7...)
 NUM_MASTERS = 1
 # Number of worker nodes (1 and more)
@@ -47,8 +53,11 @@ Vagrant.configure('2') do |config|
             master.vm.provision "copy ssh public key", type: "shell",
             inline: "echo \"#{key}\" >> /home/vagrant/.ssh/authorized_keys"
             master.vm.provision "shell",
-            privileged: true, path: "gitlab_setup.sh"
-            master.vm.provision "shell", inline: "sudo swapoff -a"
+            privileged: true,
+            path: "gitlab_setup.sh",
+            args: ["#{IP_ADDRESS}.#{IP}"]
+            master.vm.provision "shell",
+            inline: "sudo swapoff -a"
             master.vm.provision "shell",
             inline: "sed -i 's!/dev/mapper/debian--11--vg-swap!#/dev/mapper/debian--11--vg-swap!1' /etc/fstab"
             master.vm.provider 'virtualbox' do |v|

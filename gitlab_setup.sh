@@ -46,7 +46,7 @@ apt update && apt install -y \
     openssh-server \
     ca-certificates
 
-EXTERNAL_URL="https://gitlab.example.com"
+EXTERNAL_URL="http://$1"
 
 apt install gitlab-ce
 
