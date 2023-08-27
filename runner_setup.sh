@@ -36,20 +36,20 @@ echo -e "${warn}[Node Exporter]${no} : ${cyan}Создание системно�
 
 echo -e "${warn}[Runner]${no} : ${cyan}Установка...${no}"
 
-#curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
 
-Download the binary for your system
-sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+# Download the binary for your system
+# sudo curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
 
 # Give it permission to execute
-sudo chmod +x /usr/local/bin/gitlab-runner
+# sudo chmod +x /usr/local/bin/gitlab-runner
 
 # Create a GitLab Runner user
-sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+# sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
 
 # Install and run as a service
-sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
-sudo gitlab-runner start
+# sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+# sudo gitlab-runner start
 
 # curl -L https://packages.gitlab.com/gpg.key | sudo apt-key add -
 
@@ -57,11 +57,15 @@ sudo gitlab-runner start
 #   https://packages.gitlab.com/runner/gitlab-runner/script.deb.sh
 
 apt update && apt install -y \
+    git \
     make \
     curl \
     htop \
+    patch \
     docker \
-#    gitlab-runner \
+    git-man \
+    gitlab-runner \
+    liberror-perl \
     docker-compose
 
 echo -e "${warn}[k8s installer]${no} ${cyan}Установка mkcert для самоподписных сертификатов${no}"
