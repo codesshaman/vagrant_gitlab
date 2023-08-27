@@ -1,4 +1,5 @@
 debian
 .vagrant
+.DS_Store
 .vagrantboxes
 a2a5f4df-eba7-4c0c-88e4-7ff6d02d5ada
