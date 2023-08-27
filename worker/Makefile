@@ -31,8 +31,8 @@ help:
 
 build:
 	@printf "$(OK_COLOR)==== Building configuration ${name}... ====$(NO_COLOR)\n"
-	@printf "Command:$(WARN_COLOR)gitlab-runner register$(NO_COLOR)\n"
-	@gitlab-runner register
+	@printf "Command:$(WARN_COLOR)gitlab-ci-multi-runner register$(NO_COLOR)\n"
+	@gitlab-ci-multi-runner register
 
 down:
 	@printf "$(ERROR_COLOR)==== Stopping configuration ${name}... ====$(NO_COLOR)\n"
