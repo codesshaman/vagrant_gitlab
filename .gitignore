@@ -1,4 +1,6 @@
 debian
+master/*
+worker/*
 .vagrant
 .DS_Store
 .vagrantboxes
